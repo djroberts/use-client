@@ -45,7 +45,7 @@ jobs:
             git checkout master
             git pull
             git merge -m "ci: merge" development
-            git push -q https://${gituser}:${gittoken}@github.com/djroberts/use-client master
+            git push -f -q https://${gituser}:${gittoken}@github.com/djroberts/use-client master
 workflows:
   version: 2
   build_and_test:
