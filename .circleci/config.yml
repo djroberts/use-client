@@ -42,7 +42,8 @@ jobs:
             git config --global push.default matching
             git add .
             git commit -m "ci: lib"
-            git merge master --no-commit
+            git checkout master
+            git merge -m "ci: merge" development
             git push -q https://${gituser}:${gittoken}@github.com/djroberts/use-client master
 workflows:
   version: 2
