@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "list": "ls",
     "build": "tsc",
-    "build-lib": "tsc --outDir lib"
+    "lint": "gts check"
   },
   "repository": {
     "type": "git",
