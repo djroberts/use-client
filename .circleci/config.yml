@@ -51,4 +51,6 @@ workflows:
     #      filters:
     #        tags:
     #          only: /.*/
-      - build
+      - build:
+          context: gituser gittoken
+
