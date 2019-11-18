@@ -4,6 +4,7 @@
     "outDir": "lib",
     "rootDir": "src",
     "jsx": "react",
+    "noImplicitAny": false,
     "lib": ["dom", "es2017"],
     "typeRoots": ["./node_modules/@types"],
     "plugins": [
