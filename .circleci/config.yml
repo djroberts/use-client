@@ -53,4 +53,7 @@ workflows:
     #          only: /.*/
       - build:
           context: usequery
+          branches:
+            only:
+              - development
 
