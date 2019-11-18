@@ -52,5 +52,5 @@ workflows:
     #        tags:
     #          only: /.*/
       - build:
-          context: gituser gittoken
+          context: gituser
 
