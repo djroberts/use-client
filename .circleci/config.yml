@@ -27,7 +27,7 @@ jobs:
           command: npm i
       - run:
           name: Build from source
-          command: tsc --outDir lib
+          command: npm run build-lib
       #- persist_to_workspace:
       #    root: ./
       #    paths:
