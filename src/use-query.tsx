@@ -1,10 +1,13 @@
 import * as React from 'react';
 
-export interface Error {}
+export interface Error {
+    [key: string]: any;
+}
 
 export interface Response {
     data: any;
     status: number | string | null;
+    [key: string]: any;
 }
 
 export interface QueryPromise<T = any> extends Promise<Response> {}
