@@ -24,7 +24,7 @@ jobs:
           at: ./
       - run:
           name: Build from source
-          command: npm run build
+          command: npm run list
       - persist_to_workspace:
           root: ./
           paths:
