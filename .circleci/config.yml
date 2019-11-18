@@ -52,5 +52,5 @@ workflows:
     #        tags:
     #          only: /.*/
       - build:
-          context: gituser
+          context: usequery
 
