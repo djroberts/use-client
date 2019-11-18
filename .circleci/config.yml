@@ -28,24 +28,23 @@ jobs:
       - run:
           name: Build from source
           command: npm run build-lib
-      #- persist_to_workspace:
-      #    root: ./
-      #    paths:
-      #      - node_modules
-      #      - lib
-      - run:
-          name: Commit
-          command: |
-            git config credential.helper 'cache --timeout=120'
-            git config user.email "daniel@ivin.nl"
-            git config user.name "Autobot"
-            git config --global push.default matching
-            git add .
-            git commit -m "ci: lib"
-            git checkout master
-            git pull
-            git merge -m "ci: merge" development
-            git push -f -q https://${gituser}:${gittoken}@github.com/djroberts/use-client master
+#      - persist_to_workspace:
+#          root: ./
+#          paths:
+#            - node_modules
+#            - lib
+#      - run:
+#          name: Commit
+#          command: |
+#            git config credential.helper 'cache --timeout=120'
+#            git config user.email "daniel@ivin.nl"
+#            git config user.name "Autobot"
+#            git config --global push.default matching
+#            git add .
+#            git commit -m "ci: lib"
+#            git checkout master
+#            git merge -m "ci: merge" development
+#            git push -q https://${gituser}:${gittoken}@github.com/djroberts/use-client master
 workflows:
   version: 2
   build_and_test:
