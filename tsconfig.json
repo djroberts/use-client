@@ -5,6 +5,7 @@
     "rootDir": "src",
     "jsx": "react",
     "noImplicitAny": false,
+    "declaration": true,
     "lib": ["dom", "es2017"],
     "typeRoots": ["./node_modules/@types"],
     "plugins": [
