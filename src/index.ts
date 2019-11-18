@@ -1,1 +1,1 @@
-export { useQuery, Response, QueryPromise } from './use-query';
+export { useQuery, Response, QueryPromise, Error } from './use-query';
