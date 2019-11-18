@@ -30,3 +30,8 @@ jobs:
           paths:
             - node_modules
             - lib
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
