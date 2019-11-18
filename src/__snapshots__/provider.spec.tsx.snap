@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Provider it should render without crashing 1`] = `
+<div>
+  <div>
+    Child element
+  </div>
+</div>
+`;

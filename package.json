@@ -1,37 +1,46 @@
 {
-  "name": "use-client",
-  "version": "0.0.1",
-  "description": "use-query",
-  "main": "src/index.ts",
-  "types": "./index.d.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "list": "ls",
-    "build": "tsc",
-    "lint": "gts check"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/djroberts/use-client.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/djroberts/use-client/issues"
-  },
-  "homepage": "https://github.com/djroberts/use-client#readme",
-  "dependencies": {},
-  "peerDependencies": {
-    "react": "^16.12.0"
-  },
-  "devDependencies": {
-    "@types/node": "^12.12.8",
-    "@types/react": "^16.9.11",
-    "gts": "^1.1.0",
-    "prettier": "^1.19.1",
-    "react": "^16.12.0",
-    "tslint": "^5.20.1",
-    "tslint-react": "^4.1.0",
-    "typescript": "^3.7.2"
-  }
+    "name": "use-client",
+    "version": "0.0.1",
+    "description": "use-query",
+    "main": "src/index.ts",
+    "types": "./index.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "lint": "gts check",
+        "lint:fix": "gts fix",
+        "test": "NODE_ENV=test jest --runInBand .",
+        "test:coverage": "NODE_ENV=test jest --runInBand . --coverage",
+        "test:snapshot": "NODE_ENV=test jest -u --runInBand ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/djroberts/use-client.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/djroberts/use-client/issues"
+    },
+    "homepage": "https://github.com/djroberts/use-client#readme",
+    "dependencies": {},
+    "peerDependencies": {
+        "react": "^16.12.0",
+        "react-dom": "^16.12.0"
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "^4.2.4",
+        "@testing-library/react": "^9.3.2",
+        "@types/jest": "^24.0.23",
+        "@types/node": "^12.12.8",
+        "@types/react": "^16.9.11",
+        "gts": "^1.1.0",
+        "jest": "^24.9.0",
+        "prettier": "^1.19.1",
+        "react": "^16.12.0",
+        "react-dom": "^16.12.0",
+        "ts-jest": "^24.1.0",
+        "tslint": "^5.20.1",
+        "tslint-react": "^4.1.0",
+        "typescript": "^3.7.2"
+    }
 }
