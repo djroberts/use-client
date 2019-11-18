@@ -1,3 +1,3 @@
-export { useQuery, Response, QueryPromise, Error } from './use-query';
+export { useClient, ClientResponse, ClientRequestPromise, ClientError } from './use-client';
 
 // test

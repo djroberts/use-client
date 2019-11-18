@@ -15,6 +15,19 @@ jobs:
           root: ./
           paths:
             - node_modules
+
+  audit:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./
+      - run:
+          name: Install dependencies
+          command: npm i
+      - run:
+          name: Dependency audit
+          command: npm audit
   lint:
     <<: *defaults
     steps:
@@ -27,6 +40,19 @@ jobs:
       - run:
           name: Code linting
           command: npm run lint
+  coverage:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./
+      - run:
+          name: Install dependencies
+          command: npm i
+      - run:
+          name: Code coverage
+          command: npm run test:coverage
+
   build:
     <<: *defaults
     steps:
@@ -64,16 +90,22 @@ workflows:
     #      filters:
     #        tags:
     #          only: /.*/
+      - audit:
+          filters:
+            tags:
+              only: /.*/
       - lint:
+          filters:
+            tags:
+              only: /.*/
+      - coverage:
           filters:
             tags:
               only: /.*/
       - build:
           context: usequery
-          filters:
-            branches:
-              only:
-                - development
           requires:
+            - audit
             - lint
+            - coverage
 
