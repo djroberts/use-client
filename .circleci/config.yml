@@ -15,7 +15,18 @@ jobs:
           root: ./
           paths:
             - node_modules
-
+  lint:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./
+      - run:
+          name: Install dependencies
+          command: npm i
+      - run:
+          name: Code linting
+          command: npm run lint
   build:
     <<: *defaults
     steps:
@@ -53,10 +64,16 @@ workflows:
     #      filters:
     #        tags:
     #          only: /.*/
+      - lint:
+          filters:
+            tags:
+              only: /.*/
       - build:
           context: usequery
           filters:
             branches:
               only:
                 - development
+          requires:
+            - lint
 
