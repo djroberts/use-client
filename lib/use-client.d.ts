@@ -8,7 +8,7 @@ export interface ClientResponse {
 }
 export interface ClientRequestPromise<T = any> extends Promise<ClientResponse> {
 }
-export declare type ClientRequestCall = (data?: unknown) => ClientRequestPromise;
+export declare type ClientRequestCall = (data?: any) => ClientRequestPromise;
 export interface ClientRequest {
     call: ClientRequestCall;
     running: boolean;
