@@ -14,7 +14,7 @@ export interface ClientResponse {
 
 export interface ClientRequestPromise<T = any> extends Promise<ClientResponse> {}
 
-export type ClientRequestCall = (data?: unknown) => ClientRequestPromise;
+export type ClientRequestCall = (data?: any) => ClientRequestPromise;
 
 export interface ClientRequest {
     call: ClientRequestCall;
@@ -85,7 +85,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
     }
 
     const [state, dispatch] = React.useReducer(reducer, initialState);
-    const handleRequest = async (data?: unknown) => {
+    const handleRequest = async (data?: any) => {
         if (runningOptions.priority === 'first' && requests[name].running) {
             return;
         }
