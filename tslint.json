@@ -1,0 +1,20 @@
+{
+  "extends": ["gts/tslint.json", "tslint-react"],
+  "rules": {
+    "array-type": false,
+    "jsx-wrap-multiline": false,
+    "jsx-no-multiline-js": false,
+    "no-any": false,
+    "no-default-export": false,
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore",
+      "allow-pascal-case"
+    ]
+  },
+  "linterOptions": {
+    "exclude": ["**/*.json", "node_modules"]
+  }
+}
