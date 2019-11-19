@@ -3,10 +3,10 @@
     "publishConfig": {
         "registry": "https://npm.pkg.github.com/@djroberts"
     },
-    "version": "0.0.1",
+    "version": "0.0.3",
     "description": "use-query",
-    "main": "src/index.ts",
-    "types": "./index.d.ts",
+    "main": "index.js",
+    "types": "index.d.ts",
     "scripts": {
         "build": "tsc",
         "lint": "gts check",
@@ -15,6 +15,7 @@
         "test:coverage": "NODE_ENV=test jest --runInBand . --coverage",
         "test:snapshot": "NODE_ENV=test jest -u --runInBand ."
     },
+    "files": ["/lib"],
     "repository": {
         "type": "git",
         "url": "git+https://github.com/djroberts/use-client.git"

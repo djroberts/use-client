@@ -1,9 +1,0 @@
-src
-
-node_modules
-
-.idea
-
-.gitignore
-
-.circleci
