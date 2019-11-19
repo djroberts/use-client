@@ -97,7 +97,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
         });
 
         try {
-            const promise = query.call(data);
+            const promise = query(data);
 
             requests[name].running = true;
 
