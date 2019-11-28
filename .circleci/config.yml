@@ -75,6 +75,9 @@ jobs:
           name: Install dependencies
           command: npm i
       - run:
+          name: Build from source
+          command: npm run build
+      - run:
           name: NPM deployment
           command: npx semantic-release
 
@@ -103,29 +106,27 @@ workflows:
 #            filters:
 #              tags:
 #                only: /.*/
-      - audit:
-          filters:
-            tags:
-              only: /.*/
-      - lint:
-          filters:
-            tags:
-              only: /.*/
-      - coverage:
-          filters:
-            tags:
-              only: /.*/
-      - build:
-          context: usequery
-          requires:
-            - audit
-            - lint
-            - coverage
+#      - audit:
+#          filters:
+#            tags:
+#              only: /.*/
+#      - lint:
+#          filters:
+#            tags:
+#              only: /.*/
+#      - coverage:
+#          filters:
+#            tags:
+#              only: /.*/
+#      - build:
+#          context: usequery
+#          requires:
+#            - audit
+#            - lint
+#            - coverage
       - publish:
           context: usequery
           filters:
             branches:
               only:
                 - master
-          requires:
-            - build
