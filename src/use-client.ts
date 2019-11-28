@@ -116,7 +116,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
             });
 
             if (options.cache) {
-                requests[name].running = response.data;
+                requests[name].data = response.data;
             }
 
             requests[name].running = false;
@@ -135,7 +135,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
             return state.data;
         }
 
-        if (!options.cache) {
+        if (!runningOptions.cache) {
             return null;
         }
 
