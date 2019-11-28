@@ -102,10 +102,10 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      #        - dependencies:
-      #            filters:
-      #              tags:
-      #                only: /.*/
+#        - dependencies:
+#            filters:
+#              tags:
+#                only: /.*/
 #      - audit:
 #          filters:
 #            tags:
