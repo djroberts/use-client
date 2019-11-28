@@ -122,7 +122,7 @@ workflows:
       #            - lint
       #            - coverage
       - publish:
-          context: GITHUB_TOKEN
+          context: usequery
           filters:
             branches:
               only:
