@@ -76,7 +76,7 @@ jobs:
           command: npm i
       - run:
           name: NPM deployment
-          command: GITHUB_TOKEN=${GITHUB_TOKEN} npx semantic-release
+          command: npx semantic-release
 
 #      - persist_to_workspace:
 #          root: ./
@@ -103,25 +103,26 @@ workflows:
       #      filters:
       #        tags:
       #          only: /.*/
-#      - audit:
-#          filters:
-#            tags:
-#              only: /.*/
-#      - lint:
-#          filters:
-#            tags:
-#              only: /.*/
-#      - coverage:
-#          filters:
-#            tags:
-#              only: /.*/
-#      - build:
-#          context: usequery
-#          requires:
-#            - audit
-#            - lint
-#            - coverage
+      #      - audit:
+      #          filters:
+      #            tags:
+      #              only: /.*/
+      #      - lint:
+      #          filters:
+      #            tags:
+      #              only: /.*/
+      #      - coverage:
+      #          filters:
+      #            tags:
+      #              only: /.*/
+      #      - build:
+      #          context: usequery
+      #          requires:
+      #            - audit
+      #            - lint
+      #            - coverage
       - publish:
+          context: GITHUB_TOKEN
           filters:
             branches:
               only:
