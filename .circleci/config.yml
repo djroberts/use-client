@@ -65,6 +65,19 @@ jobs:
       - run:
           name: Build from source
           command: npm run build
+  publish:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./
+      - run:
+          name: Install dependencies
+          command: npm i
+      - run:
+          name: NPM deployment
+          command: npx semantic-release
+
 #      - persist_to_workspace:
 #          root: ./
 #          paths:
@@ -86,10 +99,10 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-    #  - dependencies:
-    #      filters:
-    #        tags:
-    #          only: /.*/
+      #  - dependencies:
+      #      filters:
+      #        tags:
+      #          only: /.*/
       - audit:
           filters:
             tags:
@@ -108,4 +121,8 @@ workflows:
             - audit
             - lint
             - coverage
-
+      - publish:
+          filters:
+            branches:
+              only:
+                - master
