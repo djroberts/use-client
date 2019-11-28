@@ -126,3 +126,5 @@ workflows:
             branches:
               only:
                 - master
+          requires:
+            - build
