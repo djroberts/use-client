@@ -20,6 +20,7 @@ export interface ClientRequest {
     call: ClientRequestCall;
     running: boolean;
     index: number;
+    data?: any;
 }
 
 export interface ClientRequests {
@@ -114,6 +115,10 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
                 response,
             });
 
+            if (options.cache) {
+                requests[name].running = response.data;
+            }
+
             requests[name].running = false;
         } catch (error) {
             dispatch({
@@ -125,8 +130,25 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
         }
     };
 
+    const getData = (): any => {
+        if (state.data) {
+            return state.data;
+        }
+
+        if (!options.cache) {
+            return null;
+        }
+
+        if (requests[name]) {
+            return requests[name].data;
+        }
+
+        return null;
+    };
+
     return {
         ...state,
+        data: getData(),
         handleRequest,
     };
 };
