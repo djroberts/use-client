@@ -99,33 +99,33 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      #  - dependencies:
-      #      filters:
-      #        tags:
-      #          only: /.*/
-      #      - audit:
-      #          filters:
-      #            tags:
-      #              only: /.*/
-      #      - lint:
-      #          filters:
-      #            tags:
-      #              only: /.*/
-      #      - coverage:
-      #          filters:
-      #            tags:
-      #              only: /.*/
-      #      - build:
-      #          context: usequery
-      #          requires:
-      #            - audit
-      #            - lint
-      #            - coverage
+#        - dependencies:
+#            filters:
+#              tags:
+#                only: /.*/
+      - audit:
+          filters:
+            tags:
+              only: /.*/
+      - lint:
+          filters:
+            tags:
+              only: /.*/
+      - coverage:
+          filters:
+            tags:
+              only: /.*/
+      - build:
+          context: usequery
+          requires:
+            - audit
+            - lint
+            - coverage
       - publish:
           context: usequery
           filters:
             branches:
               only:
                 - master
-#          requires:
-#            - build
+          requires:
+            - build
