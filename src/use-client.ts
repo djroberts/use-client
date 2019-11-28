@@ -57,10 +57,12 @@ export interface Action {
 
 export interface Options {
     priority?: 'first' | 'last';
+    cache?: boolean;
 }
 
 const initialOptions: Options = {
     priority: 'last',
+    cache: false,
 };
 
 export const useClient = <T>(name: string, query: ClientRequestCall, options: Options = {}): UseClientResult<T> => {
