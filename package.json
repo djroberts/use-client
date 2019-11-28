@@ -1,9 +1,6 @@
 {
     "name": "use-client",
-    "publishConfig": {
-        "registry": "https://npm.pkg.github.com/@djroberts"
-    },
-    "version": "0.0.3",
+    "version": "0.0.0-development",
     "description": "use-query",
     "main": "index.js",
     "types": "index.d.ts",
