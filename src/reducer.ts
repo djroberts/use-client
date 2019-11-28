@@ -13,6 +13,13 @@ export const reducer: React.Reducer<State<null>, Action> = (state, action) => {
         };
     }
 
+    if (action.type === 'setData') {
+        return {
+            ...state,
+            data: action.data,
+        };
+    }
+
     if (action.type === 'success') {
         return {
             ...state,

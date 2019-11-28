@@ -38,6 +38,7 @@ export interface State<T> {
 
 export interface UseClientResult<T> extends State<T> {
     handleRequest: (data?: any) => void;
+    setData: (data: any) => void;
     data: T | null;
 }
 
@@ -51,7 +52,8 @@ const initialState: State<null> = {
 };
 
 export interface Action {
-    type: 'start' | 'success' | 'error';
+    type: 'start' | 'success' | 'error' | 'setData';
+    data?: any;
     response?: ClientResponse;
     error?: ClientError;
 }
@@ -115,7 +117,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
                 response,
             });
 
-            if (options.cache) {
+            if (runningOptions.cache) {
                 requests[name].data = response.data;
             }
 
@@ -146,9 +148,17 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
         return null;
     };
 
+    const setData = (data: any): void => {
+        dispatch({
+            type: 'setData',
+            data,
+        });
+    };
+
     return {
         ...state,
         data: getData(),
+        setData,
         handleRequest,
     };
 };
