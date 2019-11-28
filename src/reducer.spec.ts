@@ -20,6 +20,25 @@ describe('Reducer', () => {
         expect(result).toMatchObject({ data: null, error: null, index: 2, isLoading: true, response: null, statusCode: null });
     });
 
+    it('it should set data', () => {
+        const MOCK_ACTION: Action = {
+            type: 'setData',
+            data: 'data',
+        };
+
+        const MOCK_STATE: State<null> = {
+            isLoading: false,
+            data: null,
+            error: null,
+            response: null,
+            index: 2,
+            statusCode: null,
+        };
+
+        const result = reducer(MOCK_STATE, MOCK_ACTION);
+        expect(result).toMatchObject({ data: 'data', error: null, index: 2, isLoading: false, response: null, statusCode: null });
+    });
+
     it('it should be a success', () => {
         const MOCK_ACTION: Action = {
             type: 'success',
