@@ -1,7 +1,7 @@
 {
     "name": "use-client",
     "version": "0.0.0-development",
-    "description": "use-query",
+    "description": "use-client hook provides an abstraction layer for any api call which return a promise ",
     "main": "index.js",
     "types": "index.d.ts",
     "scripts": {

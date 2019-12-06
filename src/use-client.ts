@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { reducer } from './reducer';
 import { ClientRequestContext } from './context';
+import { Reducer } from 'react';
 
 export interface ClientError {
     [key: string]: any;
@@ -42,7 +43,7 @@ export interface UseClientResult<T> extends State<T> {
     data: T | null;
 }
 
-const initialState: State<null> = {
+const initialState: State<any> = {
     isLoading: false,
     data: null,
     error: null,
@@ -51,9 +52,9 @@ const initialState: State<null> = {
     statusCode: null,
 };
 
-export interface Action {
+export interface Action<T> {
     type: 'start' | 'success' | 'error' | 'setData';
-    data?: any;
+    data?: T | null;
     response?: ClientResponse;
     error?: ClientError;
 }
@@ -89,7 +90,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
         };
     }
 
-    const [state, dispatch] = React.useReducer(reducer, initialState);
+    const [state, dispatch] = React.useReducer<Reducer<State<T>, Action<T>>>(reducer, initialState);
     const handleRequest = async (data?: any) => {
         if (runningOptions.priority === 'first' && requests[name].running) {
             return;
@@ -132,7 +133,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
         }
     };
 
-    const getData = (): any => {
+    const getData = (): T | null => {
         if (state.data) {
             return state.data;
         }
@@ -148,7 +149,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
         return null;
     };
 
-    const setData = (data: any): void => {
+    const setData = (data: T | null): void => {
         dispatch({
             type: 'setData',
             data,

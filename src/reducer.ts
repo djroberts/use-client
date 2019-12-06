@@ -1,6 +1,7 @@
 import { Action, State } from './use-client';
+import { Reducer } from 'react';
 
-export const reducer: React.Reducer<State<null>, Action> = (state, action) => {
+export const reducer = <T>(state: State<T>, action: Action<T>): State<T> => {
     if (action.type === 'start') {
         return {
             ...state,
@@ -16,7 +17,7 @@ export const reducer: React.Reducer<State<null>, Action> = (state, action) => {
     if (action.type === 'setData') {
         return {
             ...state,
-            data: action.data,
+            data: action.data ? action.data : null,
         };
     }
 
