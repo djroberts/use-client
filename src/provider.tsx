@@ -9,7 +9,6 @@ export interface ClientProviderProps {
 
 export const ClientProvider = (props: ClientProviderProps) => {
     const requestsRef = React.useRef<ClientRequests>({});
-
     const { children } = props;
 
     return <ClientRequestContext.Provider value={requestsRef.current}>{children}</ClientRequestContext.Provider>;
