@@ -1,13 +1,5 @@
 const TEST_REGEX = '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|js?|tsx?|ts?)$';
 
-const PATH_DELIMITER = '[\\\\/]'; // match 2 antislashes or one slash
-
-/**
- * On Windows, the Regex won't match as Webpack tries to resolve the
- * paths of the modules. So we need to check for \\ and /
- */
-const safePath = item => item.split('/').join(PATH_DELIMITER);
-
 module.exports = {
     testEnvironment: 'jsdom',
     testRegex: TEST_REGEX,
