@@ -125,7 +125,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
             requests[name].running = false;
         } catch (error) {
             dispatch({
-                type: 'success',
+                type: 'error',
                 error,
             });
 
