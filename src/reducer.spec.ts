@@ -36,7 +36,7 @@ describe('Reducer', () => {
         };
 
         const result = reducer(MOCK_STATE, MOCK_ACTION);
-        expect(result).toMatchObject({ data: 'data', error: null, index: 2, isLoading: false, response: null, statusCode: null });
+        expect(result).toMatchObject({ data: 'data', error: null, index: 3, isLoading: false, response: null, statusCode: null });
     });
 
     it('it should set data that is null', () => {
@@ -54,7 +54,7 @@ describe('Reducer', () => {
         };
 
         const result = reducer(MOCK_STATE, MOCK_ACTION);
-        expect(result).toMatchObject({ data: null, error: null, index: 2, isLoading: false, response: null, statusCode: null });
+        expect(result).toMatchObject({ data: null, error: null, index: 3, isLoading: false, response: null, statusCode: null });
     });
 
     it('it should be a success', () => {
