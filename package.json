@@ -13,7 +13,9 @@
         "test:coverage": "NODE_ENV=test jest --runInBand . --coverage",
         "test:snapshot": "NODE_ENV=test jest -u --runInBand ."
     },
-    "files": ["/lib"],
+    "files": [
+        "/lib"
+    ],
     "repository": {
         "type": "git",
         "url": "git+https://github.com/djroberts/use-client.git"
@@ -24,7 +26,9 @@
         "url": "https://github.com/djroberts/use-client/issues"
     },
     "homepage": "https://github.com/djroberts/use-client#readme",
-    "dependencies": {},
+    "dependencies": {
+        "use-previous": "^1.0.0"
+    },
     "peerDependencies": {
         "react": "^16.12.0",
         "react-dom": "^16.12.0"
@@ -32,6 +36,7 @@
     "devDependencies": {
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.3.2",
+        "@testing-library/react-hooks": "^3.2.1",
         "@types/jest": "^24.0.23",
         "@types/node": "^12.12.8",
         "@types/react": "^16.9.11",
@@ -43,6 +48,7 @@
         "prettier": "^1.19.1",
         "react": "^16.12.0",
         "react-dom": "^16.12.0",
+        "react-test-renderer": "^16.12.0",
         "ts-jest": "^24.1.0",
         "tslint": "^5.20.1",
         "tslint-react": "^4.1.0",
