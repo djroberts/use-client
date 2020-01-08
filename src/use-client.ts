@@ -150,6 +150,8 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
     };
 
     const setData = (data: T | null): void => {
+        requests[name].index = state.index;
+
         dispatch({
             type: 'setData',
             data,
