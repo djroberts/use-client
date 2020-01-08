@@ -18,6 +18,7 @@ export const reducer = <T>(state: State<T>, action: Action<T>): State<T> => {
         return {
             ...state,
             data: action.data ? action.data : null,
+            index: state.index + 1,
         };
     }
 
