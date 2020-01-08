@@ -91,6 +91,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
     }
 
     const [state, dispatch] = React.useReducer<Reducer<State<T>, Action<T>>>(reducer, initialState);
+
     const handleRequest = async (data?: any) => {
         if (runningOptions.priority === 'first' && requests[name].running) {
             return;
@@ -142,11 +143,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
             return null;
         }
 
-        if (requests[name]) {
-            return requests[name].data;
-        }
-
-        return null;
+        return requests[name].data;
     };
 
     const setData = (data: T | null): void => {
