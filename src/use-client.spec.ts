@@ -3,7 +3,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import usePrevious from 'use-previous';
 import '@testing-library/jest-dom/extend-expect';
 
-import { ClientRequestCall, ClientResponse, useClient } from './use-client';
+import { ClientRequestCall, ClientResponse, useClient, useClientCacheInvalidation } from './use-client';
 
 describe('Use Client', () => {
     const RESULT = 'result';
@@ -16,6 +16,130 @@ describe('Use Client', () => {
 
     afterEach(() => {
         jest.useRealTimers();
+    });
+
+    it('it should invalidate a specific cache', async () => {
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
+            return {
+                data: requestData,
+                status: null,
+            };
+        };
+
+        const hookCallback = () => {
+            const { isLoading, data, error, handleRequest } = useClient('test.invalidate', requestData => mockRequest(requestData), { cache: true });
+
+            React.useEffect(() => {
+                handleRequest(RESULT);
+            }, []);
+
+            return { data, handleRequest };
+        };
+
+        const invalidateHookCallback = () => {
+            const { invalidate } = useClientCacheInvalidation();
+
+            invalidate('test.invalidate');
+        };
+
+        const { result, waitForNextUpdate } = renderHook(hookCallback);
+
+        expect(result.current.data).toBeUndefined();
+
+        await waitForNextUpdate();
+
+        const { result: nextResult } = renderHook(hookCallback);
+
+        expect(nextResult.current.data).toEqual(RESULT);
+
+        renderHook(invalidateHookCallback);
+
+        const { result: lastResult } = renderHook(hookCallback);
+
+        expect(lastResult.current.data).toBeUndefined();
+    });
+
+    it('it should try to invalidate a non exsisting cache', async () => {
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
+            return {
+                data: requestData,
+                status: null,
+            };
+        };
+
+        const hookCallback = () => {
+            const { isLoading, data, error, handleRequest } = useClient('test.right', requestData => mockRequest(requestData), { cache: true });
+
+            React.useEffect(() => {
+                handleRequest(RESULT);
+            }, []);
+
+            return { data, handleRequest };
+        };
+
+        const invalidateHookCallback = () => {
+            const { invalidate } = useClientCacheInvalidation();
+
+            invalidate('test.wrong');
+        };
+
+        const { result, waitForNextUpdate } = renderHook(hookCallback);
+
+        expect(result.current.data).toBeUndefined();
+
+        await waitForNextUpdate();
+
+        const { result: nextResult } = renderHook(hookCallback);
+
+        expect(nextResult.current.data).toEqual(RESULT);
+
+        renderHook(invalidateHookCallback);
+
+        const { result: lastResult } = renderHook(hookCallback);
+
+        expect(lastResult.current.data).toEqual(RESULT);
+    });
+
+    it('it should invalidate every cache', async () => {
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
+            return {
+                data: requestData,
+                status: null,
+            };
+        };
+
+        const hookCallback = cacheName => () => {
+            const { isLoading, data, error, handleRequest } = useClient(cacheName, requestData => mockRequest(requestData), { cache: true });
+
+            React.useEffect(() => {
+                handleRequest(RESULT);
+            }, []);
+
+            return { data, handleRequest };
+        };
+
+        const invalidateHookCallback = () => {
+            const { invalidateAll } = useClientCacheInvalidation();
+
+            invalidateAll();
+        };
+
+        const { result, waitForNextUpdate } = renderHook(hookCallback('cache.first'));
+        await waitForNextUpdate();
+        const { result: otherResult, waitForNextUpdate: waitForOtherUpdate } = renderHook(hookCallback('cache.second'));
+        await waitForOtherUpdate;
+
+        const { result: nextResult } = renderHook(hookCallback);
+
+        expect(result.current.data).toEqual(RESULT);
+        expect(otherResult.current.data).toEqual(RESULT);
+
+        renderHook(invalidateHookCallback);
+        const { result: lastResult } = renderHook(hookCallback('cache.first'));
+        const { result: otherLastResult } = renderHook(hookCallback('cache.second'));
+
+        expect(lastResult.current.data).toBeUndefined();
+        expect(otherLastResult.current.data).toBeUndefined();
     });
 
     it('it should execute the request and return a result', () => {
@@ -45,9 +169,7 @@ describe('Use Client', () => {
         });
     });
 
-    it('it should pull data from cache', () => {
-        expect.assertions(2);
-
+    it('it should pull data from cache', async () => {
         const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
             return {
                 data: requestData,
@@ -56,23 +178,24 @@ describe('Use Client', () => {
         };
 
         const hookCallback = () => {
-            const { isLoading, data, error, handleRequest } = useClient('test.cache', requestData => mockRequest(requestData), { cache: true });
-
-            const wasLoading = usePrevious(isLoading);
+            const { data, handleRequest } = useClient('test.cache', requestData => mockRequest(requestData), { cache: true });
 
             React.useEffect(() => {
                 handleRequest(RESULT);
             }, []);
 
-            React.useEffect(() => {
-                if (wasLoading && !isLoading) {
-                    expect(data).toEqual(RESULT);
-                }
-            }, [isLoading]);
+            return { data, handleRequest };
         };
 
-        renderHook(hookCallback);
-        renderHook(hookCallback);
+        const { result, waitForNextUpdate } = renderHook(hookCallback);
+
+        expect(result.current.data).toBeUndefined();
+
+        await waitForNextUpdate();
+
+        const { result: nextResult } = renderHook(hookCallback);
+
+        expect(nextResult.current.data).toEqual(RESULT);
     });
 
     it('it should have an empty cache', () => {
