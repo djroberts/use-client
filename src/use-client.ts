@@ -162,3 +162,25 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
         handleRequest,
     };
 };
+
+export const useClientCacheInvalidation = () => {
+    const requests = React.useContext<ClientRequests>(ClientRequestContext);
+
+    const invalidate = (name: string): void => {
+        if (requests[name]) {
+            delete requests[name];
+        }
+    };
+
+    const invalidateAll = () => {
+        const keys = Object.keys(requests);
+        keys.forEach((key: string) => {
+            delete requests[key];
+        });
+    };
+
+    return {
+        invalidate,
+        invalidateAll,
+    };
+};
