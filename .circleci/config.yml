@@ -1,6 +1,6 @@
 defaults: &defaults
   docker:
-    - image: circleci/node:jessie-browsers
+    - image: circleci/node:12.1.0
 
 version: 2.1
 jobs:
@@ -80,52 +80,37 @@ jobs:
       - run:
           name: NPM deployment
           command: npx semantic-release
-
-#      - persist_to_workspace:
-#          root: ./
-#          paths:
-#            - node_modules
-#            - lib
-#      - run:
-#          name: Commit
-#          command: |
-#            git config credential.helper 'cache --timeout=120'
-#            git config user.email "daniel@ivin.nl"
-#            git config user.name "Autobot"
-#            git config --global push.default matching
-#            git add .
-#            git commit -m "ci: lib"
-#            git checkout master
-#            git merge -m "ci: merge" development
-#            git push -q https://${gituser}:${gittoken}@github.com/djroberts/use-client master
 workflows:
   version: 2
   build_and_test:
     jobs:
-#      - dependencies:
-#            filters:
-#              tags:
-#                only: /.*/
-#      - audit:
-#          filters:
-#            tags:
-#              only: /.*/
-#      - lint:
-#          filters:
-#            tags:
-#              only: /.*/
-#      - coverage:
-#          filters:
-#            tags:
-#              only: /.*/
-#      - build:
-#          context: usequery
-#          requires:
-#            - audit
-#            - lint
-#            - coverage
+      #      - dependencies:
+      #            filters:
+      #              tags:
+      #                only: /.*/
+      #      - audit:
+      #          filters:
+      #            tags:
+      #              only: /.*/
+      - lint:
+          filters:
+            tags:
+              only: /.*/
+      - coverage:
+          filters:
+            tags:
+              only: /.*/
+      #      - build:
+      #          context: usequery
+      #          requires:
+      #            - audit
+      #            - lint
+      #            - coverage
       - publish:
-          context: usequery
+          context: usecachedformikfield
+          requires:
+            - lint
+            - coverage
           filters:
             branches:
               only:
