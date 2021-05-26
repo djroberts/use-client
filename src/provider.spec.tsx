@@ -1,46 +1,47 @@
-import * as React from 'react';
-import { render } from '@testing-library/react';
+import * as React from 'react'
 
-import { ClientProvider } from './provider';
-import { ClientRequestContext } from './context';
-import { ClientRequests } from './use-client';
+import { render } from '@testing-library/react'
+
+import { ClientProvider } from './provider'
+import { ClientRequestContext } from './context'
+import { ClientRequests } from './use-client'
 
 describe('Provider', () => {
     it('it should render without crashing', () => {
         const { container } = render(
-            <ClientProvider>
-                <div>Child element</div>
-            </ClientProvider>,
+          <ClientProvider>
+            <div>Child element</div>
+          </ClientProvider>,
             {
                 container: document.createElement('div'),
             },
-        );
+        )
 
-        expect(container).toMatchSnapshot();
-    });
+        expect(container).toMatchSnapshot()
+    })
 
     it('it should render with an empty context object', async () => {
-        expect.assertions(1);
+        expect.assertions(1)
 
         const promise = new Promise(resolve => {
-            const Child = props => {
-                const requests = React.useContext<ClientRequests>(ClientRequestContext);
+            const Child = () => {
+                const requests = React.useContext<ClientRequests>(ClientRequestContext)
 
-                resolve(requests);
+                resolve(requests)
 
-                return <div>Child element</div>;
-            };
+                return <div>Child element</div>
+            }
 
-            const { container } = render(
-                <ClientProvider>
-                    <Child />
-                </ClientProvider>,
+            render(
+              <ClientProvider>
+                <Child />
+              </ClientProvider>,
                 {
                     container: document.createElement('div'),
                 },
-            );
-        });
+            )
+        })
 
-        await expect(promise).resolves.toMatchObject({});
-    });
-});
+        await expect(promise).resolves.toMatchObject({})
+    })
+})

@@ -19,7 +19,7 @@ describe('Use Client', () => {
     });
 
     it('it should invalidate a specific cache', async () => {
-        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
             return {
                 data: requestData,
                 status: null,
@@ -27,7 +27,7 @@ describe('Use Client', () => {
         };
 
         const hookCallback = () => {
-            const { isLoading, data, error, handleRequest } = useClient('test.invalidate', requestData => mockRequest(requestData), { cache: true });
+            const { data, handleRequest } = useClient('test.invalidate', (requestData) => mockRequest(requestData), { cache: true });
 
             React.useEffect(() => {
                 handleRequest(RESULT);
@@ -60,7 +60,7 @@ describe('Use Client', () => {
     });
 
     it('it should try to invalidate a non exsisting cache', async () => {
-        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
             return {
                 data: requestData,
                 status: null,
@@ -68,7 +68,7 @@ describe('Use Client', () => {
         };
 
         const hookCallback = () => {
-            const { isLoading, data, error, handleRequest } = useClient('test.right', requestData => mockRequest(requestData), { cache: true });
+            const { data, handleRequest } = useClient('test.right', (requestData) => mockRequest(requestData), { cache: true });
 
             React.useEffect(() => {
                 handleRequest(RESULT);
@@ -101,15 +101,15 @@ describe('Use Client', () => {
     });
 
     it('it should invalidate every cache', async () => {
-        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
             return {
                 data: requestData,
                 status: null,
             };
         };
 
-        const hookCallback = cacheName => () => {
-            const { isLoading, data, error, handleRequest } = useClient(cacheName, requestData => mockRequest(requestData), { cache: true });
+        const hookCallback = (cacheName) => () => {
+            const { data, handleRequest } = useClient(cacheName, (requestData) => mockRequest(requestData), { cache: true });
 
             React.useEffect(() => {
                 handleRequest(RESULT);
@@ -132,7 +132,7 @@ describe('Use Client', () => {
 
         await waitForOtherUpdate;
 
-        const { result: nextResult } = renderHook(hookCallback);
+        renderHook(hookCallback);
 
         expect(result.current.data).toEqual(RESULT);
         expect(otherResult.current.data).toEqual(RESULT);
@@ -149,7 +149,7 @@ describe('Use Client', () => {
     it('it should start', () => {
         expect.assertions(1);
 
-        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
             return {
                 data: requestData,
                 status: null,
@@ -157,7 +157,7 @@ describe('Use Client', () => {
         };
 
         renderHook(() => {
-            const { isStarted, handleRequest, isLoading } = useClient('test.result', requestData => mockRequest(requestData));
+            const { isStarted, handleRequest, isLoading } = useClient('test.result', (requestData) => mockRequest(requestData));
 
             React.useEffect(() => {
                 handleRequest(RESULT);
@@ -174,7 +174,7 @@ describe('Use Client', () => {
     it('it should execute the request and return a result', () => {
         expect.assertions(1);
 
-        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
             return {
                 data: requestData,
                 status: null,
@@ -182,7 +182,7 @@ describe('Use Client', () => {
         };
 
         renderHook(() => {
-            const { isLoading, data, error, handleRequest } = useClient('test.result', requestData => mockRequest(requestData));
+            const { isLoading, data, handleRequest } = useClient('test.result', (requestData) => mockRequest(requestData));
 
             const wasLoading = usePrevious(isLoading);
 
@@ -199,7 +199,7 @@ describe('Use Client', () => {
     });
 
     it('it should pull data from cache', async () => {
-        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
             return {
                 data: requestData,
                 status: null,
@@ -207,7 +207,7 @@ describe('Use Client', () => {
         };
 
         const hookCallback = () => {
-            const { data, handleRequest } = useClient('test.cache', requestData => mockRequest(requestData), { cache: true });
+            const { data, handleRequest } = useClient('test.cache', (requestData) => mockRequest(requestData), { cache: true });
 
             React.useEffect(() => {
                 handleRequest(RESULT);
@@ -230,7 +230,7 @@ describe('Use Client', () => {
     it('it should have an empty cache', () => {
         expect.assertions(2);
 
-        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
             return {
                 data: requestData,
                 status: null,
@@ -238,7 +238,7 @@ describe('Use Client', () => {
         };
 
         const hookCallback = () => {
-            const { isLoading, data, error, handleRequest } = useClient('test.emptycache', requestData => mockRequest(requestData), { cache: false });
+            const { isLoading, data, handleRequest } = useClient('test.emptycache', (requestData) => mockRequest(requestData), { cache: false });
 
             const wasLoading = usePrevious(isLoading);
 
@@ -260,7 +260,7 @@ describe('Use Client', () => {
     it('it should execute the request and return a result with cache enabled', () => {
         expect.assertions(1);
 
-        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
             return {
                 data: requestData,
                 status: null,
@@ -268,7 +268,7 @@ describe('Use Client', () => {
         };
 
         renderHook(() => {
-            const { isLoading, data, error, handleRequest } = useClient('test.second', requestData => mockRequest(requestData), { cache: true });
+            const { isLoading, data, handleRequest } = useClient('test.second', (requestData) => mockRequest(requestData), { cache: true });
 
             const wasLoading = usePrevious(isLoading);
 
@@ -287,12 +287,12 @@ describe('Use Client', () => {
     it('it should handle throwing an error', () => {
         expect.assertions(1);
 
-        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
+        const mockRequest: ClientRequestCall = async (): Promise<ClientResponse<string>> => {
             throw Error(ERROR_MESSAGE);
         };
 
         renderHook(() => {
-            const { isLoading, data, error, handleRequest } = useClient('test.error', requestData => mockRequest(requestData), { cache: true });
+            const { isLoading, error, handleRequest } = useClient('test.error', (requestData) => mockRequest(requestData), { cache: true });
 
             const wasLoading = usePrevious(isLoading);
 
@@ -313,8 +313,8 @@ describe('Use Client', () => {
     it('it should let the first request finish', () => {
         expect.assertions(1);
 
-        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
-            await new Promise(r => setTimeout(r, 100));
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
+            await new Promise((r) => setTimeout(r, 100));
 
             return {
                 data: requestData,
@@ -323,7 +323,7 @@ describe('Use Client', () => {
         };
 
         const { result } = renderHook(() => {
-            const { isLoading, data, error, handleRequest } = useClient('test.first', requestData => mockRequest(requestData), { priority: 'first' });
+            const { isLoading, data, handleRequest } = useClient('test.first', (requestData) => mockRequest(requestData), { priority: 'first' });
 
             const wasLoading = usePrevious(isLoading);
 
@@ -352,8 +352,8 @@ describe('Use Client', () => {
     it('it should ignore first request finish and let the last request finish', () => {
         expect.assertions(1);
 
-        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
-            await new Promise(r => setTimeout(r, 100));
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
+            await new Promise((r) => setTimeout(r, 100));
 
             return {
                 data: requestData,
@@ -362,7 +362,7 @@ describe('Use Client', () => {
         };
 
         const { result } = renderHook(() => {
-            const { isLoading, data, handleRequest } = useClient('test.last', requestData => mockRequest(requestData), { priority: 'last' });
+            const { isLoading, data, handleRequest } = useClient('test.last', (requestData) => mockRequest(requestData), { priority: 'last' });
 
             const wasLoading = usePrevious(isLoading);
 
@@ -391,7 +391,7 @@ describe('Use Client', () => {
     it('it should set data', () => {
         expect.assertions(1);
 
-        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
             return {
                 data: requestData,
                 status: null,
@@ -399,7 +399,7 @@ describe('Use Client', () => {
         };
 
         const { result } = renderHook(() => {
-            const { isLoading, data, error, handleRequest, setData } = useClient('test.setdata', requestData => mockRequest(requestData));
+            const { data, handleRequest, setData } = useClient('test.setdata', (requestData) => mockRequest(requestData));
 
             React.useEffect(() => {
                 act(() => {
