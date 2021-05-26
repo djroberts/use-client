@@ -6,6 +6,7 @@ export const reducer = <T>(state: State<T>, action: Action<T>): State<T> => {
         return {
             ...state,
             isLoading: true,
+            isStarted: true,
             data: null,
             error: null,
             response: null,
