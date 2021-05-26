@@ -8,6 +8,7 @@ describe('Reducer', () => {
         };
 
         const MOCK_STATE: State<null> = {
+            isStarted: false,
             isLoading: false,
             data: null,
             error: null,
@@ -27,6 +28,7 @@ describe('Reducer', () => {
         };
 
         const MOCK_STATE: State<null> = {
+            isStarted: false,
             isLoading: false,
             data: null,
             error: null,
@@ -45,6 +47,7 @@ describe('Reducer', () => {
         };
 
         const MOCK_STATE: State<null> = {
+            isStarted: false,
             isLoading: false,
             data: null,
             error: null,
@@ -67,6 +70,7 @@ describe('Reducer', () => {
         };
 
         const MOCK_STATE: State<null> = {
+            isStarted: true,
             isLoading: true,
             data: null,
             error: null,
@@ -85,6 +89,7 @@ describe('Reducer', () => {
         };
 
         const MOCK_STATE: State<null> = {
+            isStarted: true,
             isLoading: true,
             data: null,
             error: null,
@@ -110,6 +115,7 @@ describe('Reducer', () => {
         };
 
         const MOCK_STATE: State<null> = {
+            isStarted: true,
             isLoading: true,
             data: null,
             error: null,
@@ -128,6 +134,7 @@ describe('Reducer', () => {
         };
 
         const MOCK_STATE: State<null> = {
+            isStarted: true,
             isLoading: true,
             data: null,
             error: null,
@@ -146,6 +153,7 @@ describe('Reducer', () => {
         };
 
         const MOCK_STATE = {
+            isStarted: false,
             isLoading: false,
             data: null,
             error: null,
