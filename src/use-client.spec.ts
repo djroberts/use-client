@@ -125,8 +125,11 @@ describe('Use Client', () => {
         };
 
         const { result, waitForNextUpdate } = renderHook(hookCallback('cache.first'));
+
         await waitForNextUpdate();
+
         const { result: otherResult, waitForNextUpdate: waitForOtherUpdate } = renderHook(hookCallback('cache.second'));
+
         await waitForOtherUpdate;
 
         const { result: nextResult } = renderHook(hookCallback);
@@ -135,11 +138,37 @@ describe('Use Client', () => {
         expect(otherResult.current.data).toEqual(RESULT);
 
         renderHook(invalidateHookCallback);
+
         const { result: lastResult } = renderHook(hookCallback('cache.first'));
         const { result: otherLastResult } = renderHook(hookCallback('cache.second'));
 
         expect(lastResult.current.data).toBeUndefined();
         expect(otherLastResult.current.data).toBeUndefined();
+    });
+
+    it('it should start', () => {
+        expect.assertions(1);
+
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse> => {
+            return {
+                data: requestData,
+                status: null,
+            };
+        };
+
+        renderHook(() => {
+            const { isStarted, handleRequest, isLoading } = useClient('test.result', requestData => mockRequest(requestData));
+
+            React.useEffect(() => {
+                handleRequest(RESULT);
+            }, []);
+
+            React.useEffect(() => {
+                if (isStarted) {
+                    expect(isLoading).toEqual(true);
+                }
+            }, [isStarted]);
+        });
     });
 
     it('it should execute the request and return a result', () => {
