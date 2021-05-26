@@ -30,6 +30,7 @@ export interface ClientRequests {
 
 export interface State<T> {
     isLoading: boolean;
+    isStarted: boolean;
     data: T | null;
     error: ClientError | null;
     response: ClientResponse | null;
@@ -45,6 +46,7 @@ export interface UseClientResult<T> extends State<T> {
 
 const initialState: State<any> = {
     isLoading: false,
+    isStarted: false,
     data: null,
     error: null,
     response: null,
