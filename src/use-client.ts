@@ -1,19 +1,18 @@
 import * as React from 'react';
 import { reducer } from './reducer';
 import { ClientRequestContext } from './context';
-import { Reducer } from 'react';
 
 export interface ClientError {
     [key: string]: any;
 }
 
-export interface ClientResponse {
-    data: any;
+export interface ClientResponse<T> {
+    data: T;
     status: number | string | null;
     [key: string]: any;
 }
 
-export interface ClientRequestPromise<T = any> extends Promise<ClientResponse> {}
+export interface ClientRequestPromise<T = any> extends Promise<ClientResponse<T>> {}
 
 export type ClientRequestCall = (data?: any) => ClientRequestPromise;
 
@@ -33,7 +32,7 @@ export interface State<T> {
     isStarted: boolean;
     data: T | null;
     error: ClientError | null;
-    response: ClientResponse | null;
+    response: ClientResponse<T> | null;
     index: number;
     statusCode: string | number | null;
 }
@@ -57,7 +56,7 @@ const initialState: State<any> = {
 export interface Action<T> {
     type: 'start' | 'success' | 'error' | 'setData';
     data?: T | null;
-    response?: ClientResponse;
+    response?: ClientResponse<T>;
     error?: ClientError;
 }
 
@@ -92,7 +91,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
         };
     }
 
-    const [state, dispatch] = React.useReducer<Reducer<State<T>, Action<T>>>(reducer, initialState);
+    const [state, dispatch] = React.useReducer<React.Reducer<State<T>, Action<T>>>(reducer, initialState);
 
     const handleRequest = async (data?: any) => {
         if (runningOptions.priority === 'first' && requests[name].running) {
@@ -110,7 +109,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
 
             requests[name].running = true;
 
-            const response: ClientResponse = await promise;
+            const response: ClientResponse<T> = await promise;
 
             if (state.index !== requests[name].index) {
                 return;
@@ -176,6 +175,7 @@ export const useClientCacheInvalidation = () => {
 
     const invalidateAll = () => {
         const keys = Object.keys(requests);
+
         keys.forEach((key: string) => {
             delete requests[key];
         });

@@ -18,6 +18,7 @@ describe('Reducer', () => {
         };
 
         const result = reducer(MOCK_STATE, MOCK_ACTION);
+
         expect(result).toMatchObject({ data: null, error: null, index: 2, isLoading: true, response: null, statusCode: null });
     });
 
@@ -38,6 +39,7 @@ describe('Reducer', () => {
         };
 
         const result = reducer(MOCK_STATE, MOCK_ACTION);
+
         expect(result).toMatchObject({ data: 'data', error: null, index: 3, isLoading: false, response: null, statusCode: null });
     });
 
@@ -57,6 +59,7 @@ describe('Reducer', () => {
         };
 
         const result = reducer(MOCK_STATE, MOCK_ACTION);
+
         expect(result).toMatchObject({ data: null, error: null, index: 3, isLoading: false, response: null, statusCode: null });
     });
 
@@ -80,6 +83,7 @@ describe('Reducer', () => {
         };
 
         const result = reducer(MOCK_STATE, MOCK_ACTION);
+
         expect(result).toMatchObject({ data: 'data', error: null, index: 2, isLoading: false, response: { data: 'data', status: 1 }, statusCode: 1 });
     });
 
@@ -99,7 +103,8 @@ describe('Reducer', () => {
         };
 
         const result = reducer(MOCK_STATE, MOCK_ACTION);
-        expect(result).toMatchObject({ data: undefined, error: null, index: 2, isLoading: false, response: null, statusCode: null });
+
+        expect(result).toMatchObject({ data: null, error: null, index: 2, isLoading: false, response: null, statusCode: null });
     });
 
     it('it should provide an error', () => {
@@ -125,6 +130,7 @@ describe('Reducer', () => {
         };
 
         const result = reducer(MOCK_STATE, MOCK_ACTION);
+
         expect(result).toMatchObject({ data: null, error: { message: 'error' }, index: 2, isLoading: false, response: { data: null, status: 1 }, statusCode: 1 });
     });
 
@@ -144,6 +150,7 @@ describe('Reducer', () => {
         };
 
         const result = reducer(MOCK_STATE, MOCK_ACTION);
+
         expect(result).toMatchObject({ data: null, error: null, index: 2, isLoading: false, response: null, statusCode: null });
     });
 

@@ -1,5 +1,4 @@
 import { Action, State } from './use-client';
-import { Reducer } from 'react';
 
 export const reducer = <T>(state: State<T>, action: Action<T>): State<T> => {
     if (action.type === 'start') {
@@ -27,7 +26,7 @@ export const reducer = <T>(state: State<T>, action: Action<T>): State<T> => {
         return {
             ...state,
             isLoading: false,
-            data: action.response && action.response.data,
+            data: action.response ? action.response.data : null,
             response: action.response || null,
             statusCode: action.response && action.response.status ? action.response.status : null,
         };
