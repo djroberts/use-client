@@ -18,7 +18,7 @@ describe('Use Client', () => {
         jest.useRealTimers();
     });
 
-    it('it should invalidate a specific cache', async () => {
+    it('should invalidate a specific cache', async () => {
         const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
             return {
                 data: requestData,
@@ -59,7 +59,7 @@ describe('Use Client', () => {
         expect(lastResult.current.data).toBeUndefined();
     });
 
-    it('it should try to invalidate a non exsisting cache', async () => {
+    it('should try to invalidate a non exsisting cache', async () => {
         const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
             return {
                 data: requestData,
@@ -100,7 +100,7 @@ describe('Use Client', () => {
         expect(lastResult.current.data).toEqual(RESULT);
     });
 
-    it('it should invalidate every cache', async () => {
+    it('should invalidate every cache', async () => {
         const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
             return {
                 data: requestData,
@@ -146,7 +146,7 @@ describe('Use Client', () => {
         expect(otherLastResult.current.data).toBeUndefined();
     });
 
-    it('it should start', () => {
+    it('should start', () => {
         expect.assertions(1);
 
         const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
@@ -171,7 +171,7 @@ describe('Use Client', () => {
         });
     });
 
-    it('it should execute the request and return a result', () => {
+    it('should execute the request and return a result', () => {
         expect.assertions(1);
 
         const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
@@ -198,7 +198,7 @@ describe('Use Client', () => {
         });
     });
 
-    it('it should pull data from cache', async () => {
+    it('should pull data from cache', async () => {
         const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
             return {
                 data: requestData,
@@ -227,7 +227,7 @@ describe('Use Client', () => {
         expect(nextResult.current.data).toEqual(RESULT);
     });
 
-    it('it should have an empty cache', () => {
+    it('should have an empty cache', () => {
         expect.assertions(2);
 
         const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
@@ -257,7 +257,7 @@ describe('Use Client', () => {
         renderHook(hookCallback);
     });
 
-    it('it should execute the request and return a result with cache enabled', () => {
+    it('should execute the request and return a result with cache enabled', () => {
         expect.assertions(1);
 
         const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
@@ -284,7 +284,7 @@ describe('Use Client', () => {
         });
     });
 
-    it('it should handle throwing an error', () => {
+    it('should handle throwing an error', () => {
         expect.assertions(1);
 
         const mockRequest: ClientRequestCall = async (): Promise<ClientResponse<string>> => {
@@ -310,7 +310,7 @@ describe('Use Client', () => {
         });
     });
 
-    it('it should let the first request finish', () => {
+    it('should let the first request finish', () => {
         expect.assertions(1);
 
         const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
@@ -349,7 +349,7 @@ describe('Use Client', () => {
         jest.advanceTimersByTime(50);
     });
 
-    it('it should ignore first request finish and let the last request finish', () => {
+    it('should ignore first request finish and let the last request finish', () => {
         expect.assertions(1);
 
         const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
@@ -388,7 +388,7 @@ describe('Use Client', () => {
         jest.advanceTimersByTime(150);
     });
 
-    it('it should set data', () => {
+    it('should set data', () => {
         expect.assertions(1);
 
         const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
@@ -420,5 +420,35 @@ describe('Use Client', () => {
 
         jest.advanceTimersByTime(10);
         result.current.setData(NEXT_RESULT);
+    });
+
+    it('should unmount', () => {
+        expect.assertions(1);
+
+        const mockRequest: ClientRequestCall = async (requestData): Promise<ClientResponse<string>> => {
+            return {
+                data: requestData,
+                status: null,
+            };
+        };
+
+        const { unmount } = renderHook(() => {
+            const { isStarted, handleRequest, isLoading } = useClient('test.result', (requestData) => mockRequest(requestData));
+
+            React.useEffect(() => {
+                act(() => {
+                    jest.advanceTimersByTime(5000);
+                    handleRequest(RESULT);
+                });
+            }, []);
+
+            React.useEffect(() => {
+                if (isStarted) {
+                    expect(isLoading).toEqual(true);
+                }
+            }, [isStarted]);
+        });
+
+        unmount();
     });
 });
