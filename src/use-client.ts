@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ReducerAction } from 'react';
 import { reducer } from './reducer';
 import { ClientRequestContext } from './context';
 
@@ -71,6 +72,16 @@ const initialOptions: Options = {
 };
 
 export const useClient = <T>(name: string, query: ClientRequestCall, options: Options = {}): UseClientResult<T> => {
+    const mounted = React.useRef<boolean>(true);
+
+    React.useEffect(() => {
+        mounted.current = true;
+
+        return () => {
+            mounted.current = false;
+        };
+    }, []);
+
     const runningOptions: Options = {
         ...initialOptions,
         ...options,
@@ -93,6 +104,14 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
 
     const [state, dispatch] = React.useReducer<React.Reducer<State<T>, Action<T>>>(reducer, initialState);
 
+    const dispachtMounted = (data: Action<T>) => {
+        if (!mounted.current) {
+            return;
+        }
+
+        dispatch(data);
+    };
+
     const handleRequest = async (data?: any) => {
         if (runningOptions.priority === 'first' && requests[name].running) {
             return;
@@ -100,7 +119,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
 
         requests[name].index = state.index;
 
-        dispatch({
+        dispachtMounted({
             type: 'start',
         });
 
@@ -115,7 +134,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
                 return;
             }
 
-            dispatch({
+            dispachtMounted({
                 type: 'success',
                 response,
             });
@@ -126,7 +145,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
 
             requests[name].running = false;
         } catch (error) {
-            dispatch({
+            dispachtMounted({
                 type: 'error',
                 error,
             });
@@ -150,7 +169,7 @@ export const useClient = <T>(name: string, query: ClientRequestCall, options: Op
     const setData = (data: T | null): void => {
         requests[name].index = state.index;
 
-        dispatch({
+        dispachtMounted({
             type: 'setData',
             data,
         });
